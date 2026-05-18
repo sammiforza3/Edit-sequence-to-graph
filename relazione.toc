@@ -1,9 +1,0 @@
-\babel@toc {italian}{}\relax 
-\babel@toc {italian}{}\relax 
-\contentsline {section}{\numberline {1}Introduzione}{2}{section.1}%
-\contentsline {section}{\numberline {2}Obiettivi}{2}{section.2}%
-\contentsline {section}{\numberline {3}Svolgimento}{2}{section.3}%
-\contentsline {subsection}{\numberline {3.1}Prima sottosezione}{2}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Seconda sottosezione}{2}{subsection.3.2}%
-\contentsline {section}{\numberline {4}Risultati}{2}{section.4}%
-\contentsline {section}{\numberline {5}Conclusioni}{2}{section.5}%
