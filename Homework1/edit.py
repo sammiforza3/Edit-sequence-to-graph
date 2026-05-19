@@ -89,7 +89,8 @@ def buildMatrix(graph, etichette, head, pattern, weight):
     cost = -1000;
     #nota: mat[0,0] = 0
     for i in range(0, righe):
-        matrix[i][0] = i * weight
+        matrix[i][0] = i * weight #gestione verticale inserimento pattern
+
 
     for c in range(1,colonne):
         #trova il minimo predecessore del nodo
@@ -97,8 +98,9 @@ def buildMatrix(graph, etichette, head, pattern, weight):
         cellsPreds=[]
         for i in range(0,c):
             if(topoList[i] in nodes):
-                cellsPreds.append(matrix[1][i])
-        matrix[1][c] = min(cellsPreds)
+                candidate = matrix[0][i]
+                cellsPreds.append(candidate)
+        matrix[0][c] = min(cellsPreds) + weight
 
     for i in range(1, righe):
         for c in range(1, colonne):
@@ -111,7 +113,7 @@ def buildMatrix(graph, etichette, head, pattern, weight):
                     cost = 1
             else:
                 cost = weight;
-            matrix[i][c] = calcolateMove(matrix, i, c, graph, topoList[c],topoList)
+            matrix[i][c] = calcolateMove(matrix, i, c, graph, topoList[c],topoList) + cost
 
     return matrix
 
