@@ -118,6 +118,11 @@ INPUT ./IMG/GrafoOriginale.png
 INPUT ./IMG/GrafoOriginale.png
 INPUT ./IMG/GrafoOriginale.png
 INPUT ./IMG/GrafoOriginale.png
+INPUT ./IMG/Grafo.png
+INPUT ./IMG/Grafo.png
+INPUT ./IMG/Grafo.png
+INPUT ./IMG/Grafo.png
+INPUT ./IMG/Grafo.png
 INPUT Relazione.aux
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT /usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb

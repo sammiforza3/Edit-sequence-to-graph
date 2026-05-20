@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1779273035.94636 "/home/samuele/Progetti/SequenceToGraph/Homework1/Relazione/Relazione/Relazione.tex" "Relazione.pdf" "Relazione" 1779273036.98421 0
+["pdflatex"] 1779285528.28236 "/home/samuele/Progetti/SequenceToGraph/Homework1/Relazione/Relazione/Relazione.tex" "Relazione.pdf" "Relazione" 1779285529.25646 0
   "/etc/texmf/web2c/texmf.cnf" 1765118561.96076 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/samuele/Progetti/SequenceToGraph/Homework1/Relazione/Relazione/Relazione.tex" 1779273035.53748 8442 0ce5cc47cb956c2fd41c793102b3ecc9 ""
+  "/home/samuele/Progetti/SequenceToGraph/Homework1/Relazione/Relazione/Relazione.tex" 1779285526.94946 9957 9d530398920a17c6dbd12f947732172d ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/jknappen/ec/tcrm1095.tfm" 1136768653 1536 02c06700a42be0f5a28664c7273f82e7 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -71,9 +71,10 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1767893800.30431 5312232 f3296911be9cc021788f3f879cf0a47d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1767811597 6802370 ba662dfeb4e92a3317da0fbe16666e80 ""
+  "IMG/Grafo.png" 1779267168.75539 30005 c50356250cffc6055307c6d51a754ed2 ""
   "IMG/GrafoOriginale.png" 1779268032.42271 24510 f0d7985e39a2460234821416350dfe26 ""
-  "Relazione.aux" 1779273036.86526 1832 da23c8d675394bafe0bb0db141e02599 "pdflatex"
-  "Relazione.tex" 1779273035.53748 8442 0ce5cc47cb956c2fd41c793102b3ecc9 ""
+  "Relazione.aux" 1779285529.16691 2345 9b63b2240486c9364171fc639431d683 "pdflatex"
+  "Relazione.tex" 1779285526.94946 9957 9d530398920a17c6dbd12f947732172d ""
   (generated)
   "Relazione.aux"
   "Relazione.log"

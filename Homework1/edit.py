@@ -120,13 +120,14 @@ def buildMatrix(graph, etichette, head, pattern, weight):
     cost = -1000;
     #nota: mat[0,0] = 0
     matrix[0][0] = 0
+    back_matrix[0][0] = (0,0)
     for i in range(1, righe):
         matrix[i][0] = i * weight #gestione verticale inserimento pattern
-        back_matrix[i][0] = back_matrix[i-1][0]
+        back_matrix[i][0] = (i-1,0)
 
 
     for c in range(1,colonne):
-        back_matrix[0][i] = back_matrix[0][i-1]
+        back_matrix[0][c] = (0,c-1)
         #trova il minimo predecessore del nodo
         nodes = predecessore(graph,topoList[c])
         
@@ -249,44 +250,10 @@ def plot_grafo(graph, etichette):
     # 7. Mostriamo la finestra a schermo
     plt.show()
 
-def main():
-    graph = {
-        "1" : ["2","3"],
-        "2" : ["4"],
-        "3" : ["4"],
-        "4" : []
-    }
-    etichette={
-        "1":["C"],
-        "2":["A"],
-        "3":["T"],
-        "4":["C"]
-    }
-    pattern = "CAC"
-    # graph = {
-    #     "1": ["2","3"],
-    #     "2": ["4"],
-    #     "4": ["5"],
-    #     "5": ["6"],
-    #     "6": ["7"],
-    #     "3": ["8"],
-    #     "8": ["9"],
-    #     "9": ["7"]
-    # }
-    # etichette={
-    #     "1":["A"],
-    #     "2":["C"],
-    #     "4":["T"],
-    #     "5":["C"],
-    #     "6":["T"],
-    #     "7":["A"],
-    #     "3":["T"],
-    #     "8":["G"],
-    #     "9":["A"],
+def start(graph, etichette, pattern):
+   
 
-    # }
-
-    #pattern = "ACTGTA"
+    
     plot_grafo(graph, etichette)
     fixGraph(graph, "1", etichette)
     print(graph)
@@ -306,7 +273,53 @@ def main():
     print("edit distance with closest string: " + str(matrix[len(matrix)-1][len(matrix[0])-1]))
     print("---------------------------------")
 
+    printMatrix(backMatrix,topolist, pattern, etichette)
 
+
+def main():
+    graph = {
+        "1" : ["2","3"],
+        "2" : ["4"],
+        "3" : ["4"],
+        "4" : []
+    }
+    etichette={
+        "1":["C"],
+        "2":["A"],
+        "3":["T"],
+        "4":["C"]
+    }
+    pattern = "CAC"
+    print("--------------------------------")
+    print("TOY EXAMPLE 1")
+    start(graph, etichette, pattern)
+    print("--------------------------------")
+    print("TOY EXAMPLE 2")
+    graph = {
+        "1": ["2","3"],
+        "2": ["4"],
+        "4": ["5"],
+        "5": ["6"],
+        "6": ["7"],
+        "3": ["8"],
+        "8": ["9"],
+        "9": ["7"]
+    }
+    etichette={
+        "1":["A"],
+        "2":["C"],
+        "4":["T"],
+        "5":["C"],
+        "6":["T"],
+        "7":["A"],
+        "3":["T"],
+        "8":["G"],
+        "9":["A"],
+
+    
+    
+    }
+    pattern = "ACTGTA" 
+    start(graph, etichette, pattern)
 main()
-
 

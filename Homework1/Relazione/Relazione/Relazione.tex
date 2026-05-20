@@ -54,11 +54,11 @@ dove Pred(v) rappresenta l'insieme dei vertici u tali per cui esiste un arco ori
     \item Inizializzazione:
     \begin{itemize}
         \item M[0, s0] = 0
-        \item Colonna iniziale (pattern avanza, grafo fermo): M[i, s0] = i $\times$ g
-        \item Riga iniziale (grafo avanza, pattern fermo): M[0, v] = $\min_{u \in Pred(v)} \{ M[0, u] \} + g$ seguendo l'ordinamento topologico.
+        \item Colonna iniziale: M[i, 0] = i $\cdot$ g
+        \item Riga iniziale: M[0, v] = $\min_{u \in Pred(v)} \{ M[0, u] \} + g$ seguendo l'ordinamento topologico.
     \end{itemize}
     \item Riempimento della Matrice: Si itera per ogni riga i (da 1 a k) e, all'interno di essa, per ogni vertice v secondo l'ordinamento topologico. Si applica la formula di ricorrenza salvando le scelte ottime in una matrice ausiliaria dei puntatori per il backtracking.
-    \item Backtracking: Il costo della minima distanza genomica si troverà nella cella M[k, t]. Partendo da questa cella e seguendo i puntatori a ritroso fino a s0, si ricostruisce l'elenco dei vertici del cammino ottimo.
+    \item Backtracking: Il costo della minima distanza genomica si troverà nella cella M[k, t]. Partendo da questa cella e seguendo i puntatori a ritroso fino a [0,0], si ricostruisce l'elenco dei vertici del cammino ottimo.
 \end{enumerate}
 
 \section{Analisi del Costo Computazionale}
@@ -89,9 +89,16 @@ Pattern \ P = CAC.
     \centering
     \includegraphics[width=0.7\textwidth]{IMG/GrafoOriginale.png}
     \caption{Grafo utilizzato per il Toy Example}
-    \label{fig:immagine}
+    \label{fig:Grafo originale}
 \end{figure}
 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{IMG/Grafo.png}
+    \caption{Grafo utilizzato per il Toy Example con nodo $S_0$ aggiunto}
+    \label{fig:Grafo modificato}
+\end{figure}
 
 
 
@@ -191,12 +198,35 @@ Eseguiamo ora i vari passaggi per riempire il resto delle celle
 \end{table}
 
 La distanza di edit minima tra il pattern e il grafo è presente nella
-cella $M[m,n]$ dove m è il numero di righe e n il numero di colonne. 
+cella $M[k+1,t+1]$.
 
+/subsection{backtracking}
+Per effettuare il backtraking viene usata una seconda matrice.
+Tale matrice presenta in ogni cella [i,c] le cocordinate della cella da cui è stato 
+prelevato il valore per calcolare il valore di tale cella.
 
+La distanza di edit minima tra il pattern e il grafo è presente nell'ultima cella in basso a destra, ovvero $M[k, n]$.
 
+\subsection{Backtracking}
+Per effettuare il backtracking viene usata una seconda matrice.
+Tale matrice presenta in ogni cella $M[i,c]$ le coordinate della cella da cui è stato prelevato il valore ottimale per calcolare il costo di tale mossa.
 
-
-
+\begin{table}[H]
+    \centering
+    \[
+    \begin{array}{cc|ccccc}
+        &   & 0  & 1 & 3 & 2 & 4 \\
+        &   & S0 & C & T & A & C \\
+    \hline
+    0 & e & (0,0) & (0,0) & (0,1) & (0,2) & (0,3) \\
+    1 & C & (0,0) & (0,0) & (1,1) & (1,1) & (0,2) \\
+    2 & A & (1,0) & (1,1) & (1,1) & (1,1) & (2,3) \\
+    3 & C & (2,0) & (2,0) & (2,1) & (2,3) & (2,3) \\
+    \end{array}
+    \]
+    \caption{Matrice di backtracking completa}
+    \label{tab:matrice-backtracking-completa}
+\end{table}
+Una volta costruita la matrice dei puntatori, è sufficiente ripercorrere il cammino a ritroso a partire dalla cella finale. Ogni cella visitata contiene le coordinate della cella precedente a cui è necessario saltare; l'etichetta della colonna corrispondente indica il vertice del grafo da inserire nel cammino ottimo.
 
 \end{document}
