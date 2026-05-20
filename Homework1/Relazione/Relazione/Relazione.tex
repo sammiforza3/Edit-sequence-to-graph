@@ -21,20 +21,20 @@ L'obiettivo è trovare la distanza genomica minima tra un pattern P di lunghezza
 
 Sia label(v) il carattere associato al vertice v. Definiamo la funzione di costo per la sostituzione C(x, y) come segue:
 \begin{equation}
-C(x, y) = 
-\begin{cases} 
-0 & \text{se } x = \text{`A'} \text{ e } y = \text{`A'} \\
-1 & \text{se } x = y \text{ (e non sono `A')} \\
-4 & \text{se } x \neq y 
+C(x, y) =
+\begin{cases}
+0 & \text{se } x = y = \mathtt{A} \\
+1 & \text{se } x = y \text{ e } x \neq \mathtt{A} \\
+4 & \text{se } x \neq y
 \end{cases}
 \end{equation}
-
 Il costo per un'inserzione o una delezione è stabilito a g = 4.
 
 \section{Progettazione dell'Algoritmo}
 
-Link a implementaazione python toy example:
+Link a implementaazione python toy example: \\
 \url{https://github.com/sammiforza3/Edit-sequence-to-graph}
+\\
 Il problema viene risolto tramite un'estensione degli algoritmi di allineamento classico applicata ai grafi diretti aciclici, nota come Partial Order Alignment (POA). 
 L'algoritmo utilizza la programmazione dinamica computando una matrice M di dimensioni (k+1) x (n+1), dove l'elemento M[i, v] rappresenta il costo minimo per allineare il prefisso del pattern P[1..i] con un cammino sul grafo che termina nel vertice v.
 
@@ -81,7 +81,7 @@ L'algoritmo richiede di allocare in memoria la matrice dei costi M di dimensioni
 
 \subsection{Toy Example}
 
-Di seguito è riportato un semplice toy example per mostrare la costruzione della matrice, individuare la distanza di edit e evindeziare i nodi del grafo G che
+Di seguito è riportato un semplice toy example per mostrare la costruzione della matrice, \\ individuare la distanza di edit e evindeziare i nodi del grafo G che
 corrispondono alla stringa con distanza di edit minore rispetto al Pattern P.
 \\
 \[
@@ -204,12 +204,6 @@ Eseguiamo ora i vari passaggi per riempire il resto delle celle
 La distanza di edit minima tra il pattern e il grafo è presente nella
 cella $M[k+1,t+1]$.
 
-/subsection{backtracking}
-Per effettuare il backtraking viene usata una seconda matrice.
-Tale matrice presenta in ogni cella [i,c] le cocordinate della cella da cui è stato 
-prelevato il valore per calcolare il valore di tale cella.
-
-La distanza di edit minima tra il pattern e il grafo è presente nell'ultima cella in basso a destra, ovvero $M[k, n]$.
 
 \subsection{Backtracking}
 Per effettuare il backtracking viene usata una seconda matrice.
