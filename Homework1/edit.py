@@ -11,8 +11,7 @@ def predecessore(graph, successore):
         return "0"
     return pred
 
-def instanziaTabella(pattern, graph):
-    print("ciao")
+
 
 
 
@@ -56,37 +55,54 @@ def emptyMatrix(righe, colonne):
     
 
 def calcolateMove(matrix, riga, colonna, graph, node, topolist, etichette, pattern, weight):
-    #troviamo il predecessore con costo minore
     pred = predecessore(graph, node)
 
-    #match 
-    #troviamo il predecessore che pesa meno SULLA MATRICE alla riga precedente
-    celle = []
-    for i in range (0, colonna):
-        if topolist[i] in pred:
-            celle.append(matrix[riga-1][i])
+    # 1. Calcolo del costo della Sostituzione (Diagonale)
+    costo_diag = weight
+    if pattern[riga] == etichette[topolist[colonna]][0]:
+        costo_diag = 0 if pattern[riga] == 'A' else 1
+
+    # match
+    scelte = [] # lista delle possibili scelte
     
-    costo = weight
-    if(pattern[riga] == etichette[topolist[colonna]][0]):
-        if(pattern[riga] == 'A'):
-            costo = 0
-        else:
-            costo = 1
-    match = min(celle) + costo
-    
-
-    #insert
-    insert = matrix[riga-1][colonna] + weight
-
-    #delete
-    celle = []
-    for i in range (0, colonna):
+    for i in range(0, colonna):
         if topolist[i] in pred:
-            celle.append(matrix[riga][i])
-    delete = min(celle) + weight
+            valore_match = matrix[riga-1][i] + costo_diag
+            posizione_match = (riga-1, i)
+            scelte.append((valore_match, posizione_match))
 
-    return min([match, insert, delete])
+    # insert
+    valore_insert = matrix[riga-1][colonna] + weight
+    posizione_insert = (riga-1, colonna)
+    scelte.append((valore_insert, posizione_insert))
 
+    # delete
+    for i in range(0, colonna):
+        if topolist[i] in pred:
+            valore_delete = matrix[riga][i] + weight
+            posizione_delete = (riga, i)
+            scelte.append((valore_delete, posizione_delete))
+
+    # Troviamo la mossa vincente
+    # Passando una lista di tuple a min(), Python cercherà automaticamente il valore più piccolo guardando il primo elemento (il costo)
+    mossa_vincente = min(scelte)
+    
+    costo_minimo = mossa_vincente[0]
+    posizione_origine = mossa_vincente[1]
+
+   
+    return costo_minimo, posizione_origine
+
+def fillBackMatrix(row, columns):
+    matrix = []
+
+    for i in range(0,row):
+        riga = []
+        for j in range(0,columns):
+            riga.append(-20)
+        matrix.append(riga)
+
+    return matrix;
 
 
 
@@ -94,20 +110,26 @@ def calcolateMove(matrix, riga, colonna, graph, node, topolist, etichette, patte
 
 #function that buils the dynamic programming matrix
 def buildMatrix(graph, etichette, head, pattern, weight):
+    
     topoList = ordinaTopo(graph, head)
     pattern = "e" + pattern
     righe = len(pattern)
     colonne = len(topoList)
     matrix = emptyMatrix(righe, colonne)
+    back_matrix = fillBackMatrix(righe, colonne)
     cost = -1000;
     #nota: mat[0,0] = 0
-    for i in range(0, righe):
+    matrix[0][0] = 0
+    for i in range(1, righe):
         matrix[i][0] = i * weight #gestione verticale inserimento pattern
+        back_matrix[i][0] = back_matrix[i-1][0]
 
 
     for c in range(1,colonne):
+        back_matrix[0][i] = back_matrix[0][i-1]
         #trova il minimo predecessore del nodo
         nodes = predecessore(graph,topoList[c])
+        
         cellsPreds=[]
         for i in range(0,c):
             if(topoList[i] in nodes):
@@ -119,78 +141,34 @@ def buildMatrix(graph, etichette, head, pattern, weight):
         for c in range(1, colonne):
             #matrix[i,c] = computeCell(matrix,righe, colonne, graph, head, pattern, 4)
             move= calcolateMove(matrix, i, c, graph, topoList[c],topoList, etichette, pattern, weight)
-            matrix[i][c] = move
-    return matrix
+            matrix[i][c] = move[0]
+            back_matrix[i][c] = move[1]
+    return matrix,back_matrix
 
-def backtracking(matrix, graph, topolist, pattern, etichette, weight=4):
-    
-    
-    
-    r = len(pattern) - 1
-    c = len(topolist) - 1
-    
-    percorso_ottimo = []
-    
-    
-    while r > 0 or c > 0:
-        valore_corrente = matrix[r][c]
-        nodo_corrente = topolist[c]
-        mossa_effettuata = False
-        
-        pred = predecessore(graph, nodo_corrente)
-        
-        # sostituzione
-        if r > 0 and c > 0:
-            lettera_pattern = pattern[r]
-            lettera_nodo = etichette[nodo_corrente][0]
-            
-            # Calcoliamo il costo locale
-            if lettera_pattern == lettera_nodo:
-                costo_diag = 0 if lettera_pattern == 'A' else 1
-            else:
-                costo_diag = 4
-                
-            
-            for p in pred:
-                if p in topolist:
-                    idx_p = topolist.index(p)
-                    if matrix[r-1][idx_p] + costo_diag == valore_corrente:
-                        percorso_ottimo.append(nodo_corrente)
-                        r -= 1
-                        c = idx_p
-                        mossa_effettuata = True
-                        break # Usciamo dal ciclo dei predecessori
-        
-        if mossa_effettuata:
-            continue
-            
-        # Inserzione
-        if r > 0:
-            if matrix[r-1][c] + weight == valore_corrente:
-                r -= 1
-                mossa_effettuata = True
-                continue
-                
-        # delezione
-        if c > 0 and not mossa_effettuata:
-            for p in pred:
-                if p in topolist:
-                    idx_p = topolist.index(p)
-                    if matrix[r][idx_p] + weight == valore_corrente:
-                        percorso_ottimo.append(nodo_corrente)
-                        c = idx_p
-                        mossa_effettuata = True
-                        break
-                        
-       
-        if not mossa_effettuata:
-            print(f"Errore: Nessun percorso valido trovato dalla cella [{r}][{c}]!")
-            break
 
-    # flipping del percoso
-    return percorso_ottimo[::-1]
-        
+#return nodes and the most similar string to the pattern 
+def backtracking(backMatrix, row, column, topoList, dizionario_etichette):
+    path_coords = []
+    nodes = []
+    labels = []
+
+   
+    while row > 0 or column > 0:
+        path_coords.append((row, column))
+        nodo_corrente = topoList[column]
+        nodes.append(nodo_corrente)
+        labels.append(dizionario_etichette[nodo_corrente][0])
+        row, column = backMatrix[row][column]
+                
+   
+    path_coords = path_coords[::-1]
+    nodes = nodes[::-1]
+    labels = labels[::-1]
     
+    return nodes, labels
+
+    
+        
 
 
 
@@ -314,12 +292,19 @@ def main():
     print(graph)
     topolist = ordinaTopo(graph, "0")
     print(ordinaTopo(graph, "0"))
-    m=calculateEditDistance(graph, etichette, pattern)
+    matrix, backMatrix = calculateEditDistance(graph, etichette, pattern)
     print("------------------")
-    printMatrix(m, topolist, pattern, etichette)
+    
     plot_grafo(graph, etichette)
-    print(backtracking(m, graph, topolist, pattern, etichette, weight=4))
+    nodes,closest_string = backtracking(backMatrix, len(matrix)-1, len(matrix[0])-1,topolist,etichette)
+    
 
+    print("---------------------------------")
+    printMatrix(matrix, topolist, pattern, etichette)
+    print("closest path: " + str(nodes) )
+    print("closest_string "  + str(closest_string))
+    print("edit distance with closest string: " + str(matrix[len(matrix)-1][len(matrix[0])-1]))
+    print("---------------------------------")
 
 
 main()
