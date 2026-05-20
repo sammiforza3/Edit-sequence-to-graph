@@ -20,7 +20,7 @@ Run the program from the terminal with:
 python main.py
 ```
 
-If the Python file has a different name, replace `main.py` with the actual filename.
+
 
 ## What the program does
 

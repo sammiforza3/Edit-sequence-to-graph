@@ -6,6 +6,7 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{hyperref}
 \geometry{a4paper, margin=2cm}
 
 \title{Soluzione: Algoritmo per il problema EDIT-sequence-to-graph}
@@ -31,6 +32,9 @@ C(x, y) =
 Il costo per un'inserzione o una delezione è stabilito a g = 4.
 
 \section{Progettazione dell'Algoritmo}
+
+Link a implementaazione python toy example:
+\url{https://github.com/sammiforza3/Edit-sequence-to-graph}
 Il problema viene risolto tramite un'estensione degli algoritmi di allineamento classico applicata ai grafi diretti aciclici, nota come Partial Order Alignment (POA). 
 L'algoritmo utilizza la programmazione dinamica computando una matrice M di dimensioni (k+1) x (n+1), dove l'elemento M[i, v] rappresenta il costo minimo per allineare il prefisso del pattern P[1..i] con un cammino sul grafo che termina nel vertice v.
 
